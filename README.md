@@ -25,7 +25,7 @@ weight: 30
    $ cd composetest
    ```
 
-2. Создайте файл с именем app.pyв каталоге вашего проекта и вставьте в него следующий код:
+2. Создайте файл с именем app.py в каталоге вашего проекта и вставьте в него следующий код:
 
    ```python
    import time
@@ -56,14 +56,14 @@ weight: 30
   В этом примере redis— имя хоста контейнера Redis в сети приложения и порт по умолчанию 6379.
 
   
-3. Создайте еще один файл с именем requirements.txtв каталоге вашего проекта и вставьте в него следующий код:
+3. Создайте еще один файл с именем requirements.tx tв каталоге вашего проекта и вставьте в него следующий код:
 
    ```text
    flask
    redis
    ```
 
-4. Создайте Dockerfileи вставьте следующий код:
+4. Создайте Dockerfile и вставьте следующий код:
 
    ```dockerfile
    # syntax=docker/dockerfile:1
@@ -83,14 +83,14 @@ weight: 30
 
    > [!Важно]
    >
-   >Проверьте, что Dockerfileу файла нет расширения, например .txt. Некоторые редакторы могут добавлять это расширение файла автоматически, что приводит к ошибке при запуске приложения.
+   >Проверьте, что у файла Dockerfile нет расширения, например .txt. Некоторые редакторы могут добавлять это расширение файла автоматически, что приводит к ошибке при запуске приложения.
 
 
 ## Шаг 2: Определите службы в файле Compose
 
 Compose упрощает управление всем стеком приложений, позволяя легко управлять службами, сетями и томами в едином понятном файле конфигурации YAML.
 
-Создайте файл с именем compose.yamlв каталоге вашего проекта и вставьте следующее:
+Создайте файл с именем compose.yaml в каталоге вашего проекта и вставьте следующее:
 
 ```yaml
 services:
@@ -102,11 +102,11 @@ services:
     image: "redis:alpine"
 ```
 
-В этом файле Compose определяются две службы: webи redis.
+В этом файле Compose определяются две службы: web и redis.
 
-Служба webиспользует образ, созданный из Dockerfileв текущем каталоге. Затем она привязывает контейнер и хост-машину к открытому порту, 8000. Этот пример службы использует порт по умолчанию для веб-сервера Flask, 5000.
+Служба web использует образ, созданный из Dockerfile в текущем каталоге. Затем она привязывает контейнер и хост-машину к открытому порту 8000. Этот пример службы использует порт по умолчанию для веб-сервера Flask - 5000.
 
-Сервис redisиспользует общедоступный образ Redis , извлеченный из реестра Docker Hub.
+Сервис redis использует общедоступный образ Redis , извлеченный из реестра Docker Hub.
 
 
 ## Шаг 3: Создайте и запустите свое приложение с помощью Compose
@@ -140,7 +140,7 @@ services:
 
    Compose извлекает образ Redis, создает образ для вашего кода и запускает службы, которые вы определили. В этом случае код статически копируется в образ во время сборки.
 
-2. Войдите http://localhost:8000/в браузер, чтобы увидеть запущенное приложение.
+2. Перейдите на  http://localhost:8000/ в браузере, чтобы увидеть запущенное приложение.
 
 Если это не помогло, вы также можете попробовать http://127.0.0.1:8000.
 
@@ -150,7 +150,7 @@ services:
    Hello World! I have been seen 1 times.
    ```
 
-   ![hello world in browser](images/quick-hello-world-1.png)
+   ![hello world in browser](https://docs.docker.com/compose/images/quick-hello-world-1.png)
 
 3. Обновите страницу.
 
@@ -160,7 +160,7 @@ services:
    Hello World! I have been seen 2 times.
    ```
 
-   ![hello world in browser](images/quick-hello-world-2.png)
+   ![hello world in browser](https://docs.docker.com/compose/images/quick-hello-world-2.png)
 
 4. Переключитесь в другое окно терминала и введите, docker image ls чтобы вывести список локальных образов.
 
@@ -177,11 +177,11 @@ services:
 
   Вы можете просматривать изображения с помощью docker inspect <tag or id>.
 
-5. Остановите приложение, запустив его docker compose down из каталога проекта во втором терминале или нажав CTRL+Cна исходный терминал, где вы запустили приложение.
+5. Остановите приложение, командой docker compose down из каталога проекта во втором терминале или нажав CTRL+C в исходном терминале, где вы запустили приложение.
 
-## Step 4: Edit the Compose file to use Compose Watch
+## Шаг 4: Отредактируйте файл Compose для использования Compose Watch
 
-Edit the `compose.yaml` file in your project directory to use `watch` so you can preview your running Compose services which are automatically updated as you edit and save your code:
+Отредактируйте compose.yaml файл в каталоге вашего проекта, watch чтобы вы могли предварительно просмотреть работающие службы Compose, которые автоматически обновляются по мере редактирования и сохранения кода:
 
 ```yaml
 services:
@@ -198,18 +198,11 @@ services:
     image: "redis:alpine"
 ```
 
-Whenever a file is changed, Compose syncs the file to the corresponding location under `/code` inside the container. Once copied, the bundler updates the running application without a restart.
+Всякий раз, когда файл изменяется, Compose синхронизирует файл с соответствующим местоположением внутри /code контейнера. После копирования упаковщик обновляет работающее приложение без перезапуска.
 
-For more information on how Compose Watch works, see [Use Compose Watch](/manuals/compose/how-tos/file-watch.md). Alternatively, see [Manage data in containers](/manuals/engine/storage/volumes.md) for other options.
+## Шаг 5: Пересоберите и запустите приложение с помощью Compose
 
-> [!NOTE]
->
-> For this example to work, the `--debug` option is added to the `Dockerfile`. The `--debug` option in Flask enables automatic code reload, making it possible to work on the backend API without the need to restart or rebuild the container.
-> After changing the `.py` file, subsequent API calls will use the new code, but the browser UI will not automatically refresh in this small example. Most frontend development servers include native live reload support that works with Compose.
-
-## Step 5: Re-build and run the app with Compose
-
-From your project directory, type `docker compose watch` or `docker compose up --watch` to build and launch the app and start the file watch mode.
+В каталоге проекта введите docker compose watch или , docker compose up --watch чтобы собрать и запустить приложение, а также включить режим просмотра файлов.
 
 ```console
 $ docker compose watch
@@ -221,42 +214,39 @@ Attaching to redis-1, web-1
 ...
 ```
 
-Check the `Hello World` message in a web browser again, and refresh to see the
-count increment.
+Проверьте сообщение в веб-браузере еще раз и обновите страницу, чтобы увидеть увеличение счетчика.
 
-## Step 6: Update the application
+## Шаг 6: Обновите приложение
 
-To see Compose Watch in action:
+1. Чтобы увидеть Compose Watch в действии:
 
-1. Change the greeting in `app.py` and save it. For example, change the `Hello World!`
-message to `Hello from Docker!`:
+Измените приветствие в app.py и сохраните его. Например, измените Hello World! сообщение на Hello from Docker!:
 
    ```python
    return f'Hello from Docker! I have been seen {count} times.\n'
    ```
 
-2. Refresh the app in your browser. The greeting should be updated, and the
-counter should still be incrementing.
+2. Обновите приложение в браузере. Приветствие должно обновиться, а счетчик должен продолжать увеличиваться.
 
-   ![hello world in browser](images/quick-hello-world-3.png)
+   ![hello world in browser](https://docs.docker.com/compose/images/quick-hello-world-3.png)
 
-3. Once you're done, run `docker compose down`.
+3. Как только вы закончите, запустите docker compose down.
 
-## Step 7: Split up your services
+## Шаг 7: Разделите сервисы
 
-Using multiple Compose files lets you customize a Compose application for different environments or workflows. This is useful for large applications that may use dozens of containers, with ownership distributed across multiple teams. 
+Использование нескольких файлов Compose позволяет настраивать приложение Compose для различных сред или рабочих процессов. Это полезно для больших приложений, которые могут использовать десятки контейнеров, с распределенным владением между несколькими командами.
 
-1. In your project folder, create a new Compose file called `infra.yaml`.
+1. В папке проекта создайте новый файл Compose с именем infra.yaml.
 
-2. Cut the Redis service from your `compose.yaml` file and paste it into your new `infra.yaml` file. Make sure you add the `services` top-level attribute at the top of your file. Your `infra.yaml` file should now look like this:
+2. Вырежьте службу Redis из вашего compose.yaml файла и вставьте ее в новый infra.yaml файл. Убедитесь, что вы добавили services атрибут верхнего уровня в верхней части вашего файла. infra.yaml
+   Теперь ваш файл должен выглядеть так:
 
    ```yaml
    services:
      redis:
        image: "redis:alpine"
    ```
-
-3. In your `compose.yaml` file, add the `include` top-level attribute along with the path to the `infra.yaml` file.
+3. В вашем compose.yaml файле добавьте атрибут include верхнего уровня вместе с путем к infra.yaml файлу.
 
    ```yaml
    include:
@@ -273,13 +263,13 @@ Using multiple Compose files lets you customize a Compose application for differ
              target: /code
    ```
 
-4. Run `docker compose up` to build the app with the updated Compose files, and run it. You should see the `Hello world` message in your browser. 
+4. Запустите docker compose up, чтобы построить приложение с обновленными файлами Compose. Вы должны увидеть сообщение Hello world в своем браузере.
 
-This is a simplified example, but it demonstrates the basic principle of `include` and how it can make it easier to modularize complex applications into sub-Compose files. For more information on `include` and working with multiple Compose files, see [Working with multiple Compose files](/manuals/compose/how-tos/multiple-compose-files/_index.md).
+Это упрощенный пример, но он демонстрирует базовый принцип include и то, как он может облегчить модуляризацию сложных приложений в подфайлы Compose.
 
-## Step 8: Experiment with some other commands
+## Шаг 8: Поэкспериментируйте с другими командами.
 
-- If you want to run your services in the background, you can pass the `-d` flag (for "detached" mode) to `docker compose up` and use `docker compose ps` to see what is currently running:
+- Если вы хотите запустить свои службы в фоновом режиме, вы можете передать -d флаг (для «отсоединенного» режима) docker compose upи использовать docker compose ps для просмотра того, что в данный момент запущено:
 
    ```console
    $ docker compose up -d
@@ -295,19 +285,12 @@ This is a simplified example, but it demonstrates the basic principle of `includ
    composetest_web_1     flask run                        Up      0.0.0.0:8000->5000/tcp
    ```
 
-- Run `docker compose --help` to see other available commands.
+- Запустите docker compose --help, чтобы увидеть другие доступные команды.
 
-- If you started Compose with `docker compose up -d`, stop your services once you've finished with them:
+- Если вы запустили Compose с помощью docker compose up -d, остановите свои службы, после завершения работы с ними:
 
    ```console
    $ docker compose stop
    ```
 
-- You can bring everything down, removing the containers entirely, with the `docker compose down` command. 
-
-## Where to go next
-
-- Try the [Sample apps with Compose](https://github.com/docker/awesome-compose)
-- [Explore the full list of Compose commands](/reference/cli/docker/compose.md)
-- [Explore the Compose file reference](/reference/compose-file/_index.md)
-- [Check out the Learning Docker Compose video on LinkedIn Learning](https://www.linkedin.com/learning/learning-docker-compose/)
+- Вы можете полностью уничтожить все, удалив контейнеры, с помощью команды docker compose down.
